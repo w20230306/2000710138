@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12306</title>
+    <style>
+        table,thead,tr,th,td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        .search{
+            width: 100px;
+            height: 35px;
+            background-color: gold;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            document.getElementsByClassName("search")[0].onclick=function(){
+                var td1=document.createElement("td").appendChild(document.createTextNode("k99"));
+                var td2=document.createElement("td").appendChild(document.createTextNode("桂林<br>桂电"));
+                var td3=document.createElement("td").appendChild(document.createTextNode("8：00<br>10：00"));
+                var td4=document.createElement("td").appendChild(document.createTextNode("2小时"));
+                var td5=document.createElement("td").appendChild(document.createTextNode("23<br>6"));
+                // 5个td属于tr
+                var tr=document.createElement("tr");
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tr.appendChild(td5);
+                document.getElementById("train").appendChild(tr);
+            // 利用ajax对12306的后端发送进行余票查询的请求
+            request=new XMLHttpRequest();
+            request.onreadystatechange=callBack;
+            startStation=document.getElementById("starStation").value;
+            endStation=document.getElementById("endStation").value;
+            date1=document.getElementById("date").value;
+            request.open("GET", "/searchTicket?startStation="+startStation+"&endStation="+endStation+"&date="+date1);
+            request.send(null);
+            
+            }
+        }
+        function callBack() {
+            console.log("我是回调函数");
+            if(request.readyState==4){
+                if(request.status==200){
+                    console.log("返回数据信息"+request.responseText);
+                }
+            }
+        }
+        function search(){
+            console.log("开始");
+        }
+    </script>
+</head>
+<body>
+
+<label for="starStation">起始站：</label> <input id="starStation" type="text" name="starStation">
+<label for="endStation">终点站：</label> <input id="endStation" type="text" name="endStation">
+<label for="date">出发日期：</label> <input id="date" type="date" name="date">
+<button class="search" >查询</button>
+
+    <table id="train">
+        <thead>
+            <tr>
+                <th>车次</th>
+                <th>出发站<br>到达站</th>
+                <th>出发时间<br>到达时间</th>
+                <th>历时</th>
+                <th>商务座<br>特等座</th>
+            </tr>
+        </thead>
+        <tr>
+            <th>K22</th>
+            <th>桂林<br>桂电</th>
+            <th>8：00<br>10：00</th>
+            <th>2小时</th>
+            <th>23<br>6</th>
+        </tr>
+        <!-- <input type="submit" name="submit" value="查询" style="float:right" /> -->
+    </table>
+
+    <br>
+    <img src="img/6.gif" alt="" style="width: 250px;height: 250px;border: 1px solid black;">
+
+</body>
+</html>
