@@ -5,11 +5,6 @@ import cn.edu.guet.util.PasswordEncoder;
 import javax.swing.*;
 import java.sql.*;
 
-/**
- * @Author liwei
- * @Date 2023/3/6 19:47
- * @Version 1.0
- */
 public class Login extends JFrame {
     /*
     声明变量
@@ -51,18 +46,15 @@ public class Login extends JFrame {
             3、写SQL
             4、创建Statement对象与SQL语句关联
              */
-            String sql = "SELECT * " +
-                    "FROM users " +
-                    "WHERE username=?";
-            //?是占位符
+            String sql="select * from users where username=?";//问号是占位符
             Connection conn = null;
             ResultSet resultSet;
             PreparedStatement pstmt;//Statement：语句，PreparedStatement：预编译语句对象
             ResultSet rs;
-            String url = "jdbc:oracle:thin:@43.139.94.243:1521:orcl";
+            String url = "jdbc:oracle:thin:@101.43.210.111:1521:orcl";
             try {
                 Class.forName("oracle.jdbc.driver.OracleDriver");
-                conn = DriverManager.getConnection(url, "liwei", "Grcl1234LiweiU");
+                conn = DriverManager.getConnection(url, "wcd", "Grcl1234WcD");
                 System.out.println(conn);//打印连接对象，如果不为空，则说明与Oracle数据库连接成功
                 if (conn != null) {
                     System.out.println("连接成功");
@@ -73,11 +65,11 @@ public class Login extends JFrame {
                     //如何判断登录成功还是失败呢？
                     //游标如果能向下移动，说明SQL语句查询到了数据，说明用户名和密码是对的
                     if (rs.next()) {
-                        System.out.println("说明用户名是合法的，再进一步获取密文");
+                        //System.out.println("说明用户名是合法的，再进一步获取密文");
                         String encPass=rs.getString("PASSWORD");
                         PasswordEncoder passwordEncoder = new PasswordEncoder("这是我的盐");
 
-                        boolean result = passwordEncoder.matches(encPass, "zs1234");
+                        boolean result = passwordEncoder.matches(encPass, pass);
 
                         // 如果密文比对成功，则隐藏《登录窗口》，显示QQ主界面
                         if (result==true){
@@ -86,7 +78,10 @@ public class Login extends JFrame {
                             Main main=new Main();
                             // 调用main对象的jFrame属性的setVisible方法
                             main.getjFrame().setVisible(true);
+                        }else {
+                            System.out.println("登录失败");
                         }
+
                     } else {
                         System.out.println("登录失败");
                     }

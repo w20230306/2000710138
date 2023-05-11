@@ -119,8 +119,11 @@ public class PasswordEncoder {
         String encPass = encryptToMD5("guet1234");
         System.out.println("zs1234加密后的密码：" + encPass);
          */
+        //获取加盐密码
         PasswordEncoder passwordEncoder = new PasswordEncoder("这是我的盐");
-        System.out.println(passwordEncoder.encode("zs1234"));
+        System.out.println(passwordEncoder.encode("ls1234"));
+
+        //验证数据库中的盐密码是否正确
 
         boolean result = passwordEncoder.matches("2d8fe30899563fec223d5731a81ebc3e", "zs1234");
         System.out.println("比对结果："+result);

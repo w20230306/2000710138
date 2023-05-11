@@ -10,11 +10,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author liwei
- * @Date 2023/3/12 12:21
- * @Version 1.0
- */
 public class Main {
 
     private JFrame jFrame;
@@ -49,13 +44,13 @@ public class Main {
             6、关闭连接
              */
             Connection conn = null;
-            String url = "jdbc:oracle:thin:@43.139.94.243:1521:orcl";
+            String url = "jdbc:oracle:thin:@101.43.210.111:1521:orcl";
             String sql = "SELECT * FROM product";
             PreparedStatement pstmt;
             ResultSet rs;
             try {
                 Class.forName("oracle.jdbc.driver.OracleDriver");
-                conn = DriverManager.getConnection(url, "liwei", "Grcl1234LiweiU");
+                conn = DriverManager.getConnection(url, "wcd", "Grcl1234WcD");
                 pstmt = conn.prepareStatement(sql);
                 rs = pstmt.executeQuery();
                 List<Product> productList=new ArrayList<>();
