@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>element-ui的table的使用</title>
+    <!--引入 element-ui 的样式，-->
+    <link rel="stylesheet" href="./css/index.css">
+    <!-- 必须先引入vue，  后使用element-ui -->
+    <script src="./js/vue.js"></script>
+    <!-- 引入element 的组件库-->
+    <script src="./js/index.js"></script>
+    <script src="./js/axios.min.js"></script>
+</head>
+<body>
+<div id="box">
+    <el-table
+            :data="tableData"
+            border
+            style="width: 100%">
+        <el-table-column
+                prop="trainNumber"
+                label="车次"
+                width="150">
+        </el-table-column>
+        <el-table-column
+                prop="startStation"
+                label="出发站"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="endStation"
+                label="到达站"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="departureTime"
+                label="出发时间"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="arrivalTime"
+                label="到达时间"
+                width="300">
+        </el-table-column>
+        <el-table-column
+                prop="duration"
+                label="历时"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                label="操作"
+                width="100">
+            <template slot-scope="scope">
+                <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                <el-button type="text" size="small">编辑</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+    <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+</div>
+<script>
+    new Vue({
+        el: '#box',
+        data() {
+            return {
+                tableData: []
+            }
+        },
+        methods: {
+            search:function(){
+                console.log("开始车票查询")
+            }
+        }
+    });
+</script>
+</body>
+</html>

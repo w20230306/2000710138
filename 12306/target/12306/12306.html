@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12306</title>
+    <style>
+        table,thead,tr,th,td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        .search{
+            width: 100px;
+            height: 35px;
+            background-color: gold;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            document.getElementsByClassName("search")[0].onclick=function(){
+            request=new XMLHttpRequest();
+            request.onreadystatechange=callBack;
+
+            startStation=document.getElementById("startStation").value;
+                console.log(startStation);
+            endStation=document.getElementById("endStation").value;
+                console.log(endStation);
+                departureDate=document.getElementById("departureDate").value;
+                console.log(departureDate);
+            request.open("GET", "/searchTicket?startStation="+startStation+"&endStation="+endStation+"&departureDate="+departureDate);
+            request.send(null);
+            
+            }
+        }
+        function callBack() {
+            console.log("我是回调函数");
+            if(request.readyState==4){
+                if(request.status==200){
+                    console.log("返回数据信息",request.responseText);
+
+                    var trainData=JSON.parse(request.responseText);
+
+                    for(var i=0;i<trainData.length;i++){
+                        var train=trainData[i];//创建一个车次的数据对象
+                        //每循环一次，创建一个tr，4个td以及6个文本节点，2个br
+                        brNode=document.createElement("br");
+
+                        trainNumberTd=document.createElement("td");
+                        trainNumberTd.appendChild(document.createTextNode(train.trainNumber));
+
+                        startStationTd=document.createElement("td");
+                        startStationTd.appendChild(document.createTextNode(train.startStation));
+                        startStationTd.appendChild(brNode);
+                        startStationTd.appendChild(document.createTextNode(train.endStation));
+
+                        departureTimeTd=document.createElement("td");
+                        departureTimeTd.appendChild(document.createTextNode(train.departureTime));
+                        departureTimeTd.appendChild(brNode);
+                        departureTimeTd.appendChild(document.createTextNode(train.arrivalTime));
+
+
+                        durationTd=document.createElement("td");
+                        durationTd.appendChild(document.createTextNode(train.duration));
+
+                        //4个td属于1个tr
+                        var trainTR=document.createElement("tr");
+                        trainTR.appendChild(trainNumberTd);
+                        trainTR.appendChild(startStationTd);
+                        trainTR.appendChild(departureTimeTd);
+                        trainTR.appendChild(durationTd);
+
+                        document.getElementById("train").appendChild(trainTR);
+
+                    }
+                }else {
+                    console.log("异常");
+                }
+            }
+        }
+        function search(){
+            console.log("开始");
+        }
+    </script>
+</head>
+<body>
+
+<label for="startStation">起始站：</label> <input id="startStation" type="text" name="startStation">
+<label for="endStation">终点站：</label> <input id="endStation" type="text" name="endStation">
+<label for="departureDate">出发日期：</label> <input id="departureDate" type="date" name="departureDate">
+<button class="search" >查询</button>
+
+    <table id="train">
+            <tr>
+                <th>车次</th>
+                <th>出发站<br>到达站</th>
+                <th>出发时间<br>到达时间</th>
+                <th>历时</th>
+            </tr>
+    </table>
+</body>
+</html>
