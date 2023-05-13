@@ -35,8 +35,11 @@
             // 利用ajax对12306的后端发送进行余票查询的请求
             request=new XMLHttpRequest();
             request.onreadystatechange=callBack;
+
             startStation=document.getElementById("starStation").value;
+
             endStation=document.getElementById("endStation").value;
+
             date1=document.getElementById("date").value;
             request.open("GET", "/searchTicket?startStation="+startStation+"&endStation="+endStation+"&date="+date1);
             request.send(null);
